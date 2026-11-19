@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Uptime and SSL Monitor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="#monitor">Website Uptime &amp; SSL Monitor</a>
+            <nav class="nav">
+                <a href="#monitor">Monitor</a>
+                <a href="#history">History</a>
+                <a href="#about">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- A. Home / Website Monitor -->
+        <section id="monitor" class="card">
+            <h1>Website Uptime and SSL Monitor</h1>
+            <p class="subtitle">Check whether a website is up, how fast it responds, and when its SSL certificate expires.</p>
+
+            <form id="check-form" class="check-form" novalidate>
+                <input type="text" id="url-input" name="url"
+                       placeholder="Enter website URL, e.g. google.com"
+                       autocomplete="off" spellcheck="false">
+                <button type="submit" id="check-btn" class="btn">Check Website</button>
+            </form>
+
+            <p id="form-error" class="form-error" role="alert" hidden></p>
+
+            <!-- B. Monitoring Results -->
+            <div id="result" class="result" hidden>
+                <p id="result-caption" class="result-caption"></p>
+                <div id="result-banner" class="banner">
+                    <span id="result-status" class="banner-status"></span>
+                    <span id="result-banner-text" class="banner-text"></span>
+                </div>
+
+                <p id="ssl-warning" class="note note-warning" hidden></p>
+
+                <dl class="details">
+                    <div class="row"><dt>Website URL</dt><dd id="r-url"></dd></div>
+                    <div class="row"><dt>Website status</dt><dd id="r-status"></dd></div>
+                    <div class="row"><dt>HTTP status code</dt><dd id="r-code"></dd></div>
+                    <div class="row"><dt>Response time</dt><dd id="r-time"></dd></div>
+                    <div class="row"><dt>SSL certificate status</dt><dd id="r-ssl"></dd></div>
+                    <div class="row"><dt>SSL expiry date</dt><dd id="r-expiry"></dd></div>
+                    <div class="row"><dt>Days remaining</dt><dd id="r-days"></dd></div>
+                    <div class="row" id="r-error-row" hidden><dt>Error message</dt><dd id="r-error" class="text-down"></dd></div>
+                    <div class="row"><dt>Checked at</dt><dd id="r-checked"></dd></div>
+                </dl>
+            </div>
+        </section>
+
+        <!-- C. Monitoring History -->
+        <section id="history" class="card">
+            <div class="section-head">
+                <h2>Monitoring History</h2>
+                <label class="filter">
+                    Website:
+                    <select id="site-filter">
+                        <option value="">All websites</option>
+                    </select>
+                </label>
+            </div>
+
+            <div id="stats" class="stats">
+                <div class="stat"><span class="stat-value" id="stat-total">0</span><span class="stat-label">Total checks</span></div>
+                <div class="stat"><span class="stat-value text-up" id="stat-up">0</span><span class="stat-label">Successful checks</span></div>
+                <div class="stat"><span class="stat-value text-down" id="stat-down">0</span><span class="stat-label">Failed checks</span></div>
+                <div class="stat"><span class="stat-value" id="stat-uptime">N/A</span><span class="stat-label">Uptime percentage</span></div>
+            </div>
+
+            <h3>Response Time</h3>
+            <div class="chart-box">
+                <canvas id="response-chart" height="110"></canvas>
+                <p id="chart-empty" class="empty" hidden></p>
+            </div>
+
+            <h3>Past Checks</h3>
+            <div class="table-wrap">
+                <table id="history-table">
+                    <thead>
+                        <tr>
+                            <th>Website URL</th>
+                            <th>Status</th>
+                            <th>HTTP code</th>
+                            <th>Response time</th>
+                            <th>SSL status</th>
+                            <th>Check date and time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body"></tbody>
+                </table>
+            </div>
+            <p id="history-empty" class="empty" hidden>No monitoring records yet. Enter a website above and click Check Website.</p>
+        </section>
+
+        <!-- D. About -->
+        <section id="about" class="card">
+            <h2>About</h2>
+
+            <h3>About the Platform</h3>
+            <p>Website Uptime and SSL Monitor checks whether a website is reachable, measures how long it takes to respond, and reads the website's SSL certificate to find out when it expires. Every check is saved so you can see the history and the uptime percentage over time.</p>
+
+            <h3>Why monitoring matters</h3>
+            <p>A website that is down loses visitors and trust, and often the owner is the last to know. A slow website frustrates users. An expired SSL certificate makes browsers show a security warning that stops most visitors from continuing. Regular checks help you find these problems early.</p>
+
+            <h3>Key Features</h3>
+            <p class="small">
+            <strong>Uptime Monitoring:</strong>
+                 Check whether websites are reachable or unavailable.
+            </p>
+
+            <p class="small">
+                <strong>Response Time Tracking:</strong>
+            Measure how quickly websites respond.
+            </p>
+
+            <p class="small">
+                <strong>SSL Certificate Monitoring:</strong>
+            Check SSL certificate validity and expiry information.
+            </p>
+
+            <p class="small">
+                <strong>Monitoring History & Analytics:</strong>
+             Review previous checks, response-time trends, and uptime statistics.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">Website Uptime and SSL Monitor</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
